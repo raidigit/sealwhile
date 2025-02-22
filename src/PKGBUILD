@@ -9,10 +9,12 @@ depends=(wlroots wayland xkbcommon)
 makedepends=(meson ninja)
 
 build() {
-    meson setup builddir --prefix=/usr
-    ninja -C builddir
+    gcc main.c -o tuskwm \
+        $(pkg-config --cflags wlroots wayland-server xkbcommon) \
+        $(pkg-config --libs wlroots wayland-server xkbcommon) \
+        -Wall -Wextra
 }
 
 package() {
-    DESTDIR="$pkgdir" ninja -C builddir install
+    install -Dm755 tuskwm "$pkgdir/usr/bin/tuskwm"
 }
