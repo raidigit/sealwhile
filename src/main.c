@@ -1,63 +1,44 @@
 #include <X11/Xlib.h>
-#include <X11/Xutil.h>
 #include <X11/cursorfont.h>
-#include <X11/keysym.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-#define MOD_KEY Mod1Mask    // Alt
-#define SHIFT_MOD ShiftMask
-#define QUIT_KEY XK_q
-
-Display *dpy;
+Display* display;
 Window root;
-Cursor cursor;
+int screen;
 
-void cleanup() {
-    XFreeCursor(dpy, cursor);
-    XCloseDisplay(dpy);
+void initX() {
+    display = XOpenDisplay(NULL);
+    if (!display) {
+        fprintf(stderr, "Failed to open X11 display\n");
+        exit(1);
+    }
+
+    screen = DefaultScreen(display);
+    root = RootWindow(display, screen);
+
+    XSetWindowAttributes attrs;
+    attrs.background_pixel = BlackPixel(display, screen);
+    XChangeWindowAttributes(display, root, CWBackPixel, &attrs);
+
+    Cursor cursor = XCreateFontCursor(display, XC_left_ptr);
+    XDefineCursor(display, root, cursor);
+
+    XSelectInput(display, root, ExposureMask);
+}
+
+void eventLoop() {
+    XEvent event;
+    while (1) {
+        XNextEvent(display, &event);
+        if (event.type == Expose) {
+            XClearWindow(display, root);
+        }
+    }
 }
 
 int main() {
-    dpy = XOpenDisplay(NULL);
-    if (!dpy) {
-        fprintf(stderr, "Cannot open display\n");
-        return 1;
-    }
-
-    screen = DefaultScreen(dpy);
-    root = RootWindow(dpy, screen);
-
-    // Черный фон
-    XSetWindowBackground(dpy, root, BlackPixel(dpy, screen));
-    XClearWindow(dpy, root);
-
-    // Курсор (стрелка)
-    cursor = XCreateFontCursor(dpy, XC_left_ptr);
-    XDefineCursor(dpy, root, cursor);
-
-    // Перехват горячих клавиш
-    XGrabKey(dpy, 
-        XKeysymToKeycode(dpy, QUIT_KEY), 
-        MOD_KEY | SHIFT_MOD, 
-        root, 
-        True, 
-        GrabModeAsync, 
-        GrabModeAsync
-    );
-
-    // Обработка событий
-    XEvent ev;
-    XSelectInput(dpy, root, KeyPressMask);
-    
-    while (1) {
-        XNextEvent(dpy, &ev);
-        if (ev.type == KeyPress) {
-            KeySym keysym = XLookupKeysym(&ev.xkey, 0);
-            if (keysym == QUIT_KEY) {
-                cleanup();
-                return 0;
-            }
-        }
-    }
+    initX();
+    eventLoop();
+    return 0;
 }
