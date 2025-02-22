@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2
 LDFLAGS = -lX11
 TARGET = tuskwm
-SRC = main.c
+SRC = main.c config.c
 PREFIX = /usr/local
 
 all: $(TARGET)
