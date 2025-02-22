@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2
-LDFLAGS = -lX11 -lXft
+CFLAGS = -Wall -Wextra -O2 $(shell pkg-config --cflags wlroots wayland-server xkbcommon)
+LDFLAGS = $(shell pkg-config --libs wlroots wayland-server xkbcommon)
 TARGET = tuskwm
 SRC = main.c
 PREFIX = /usr/local
