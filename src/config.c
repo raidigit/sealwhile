@@ -2,16 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <X11/Xlib.h>
 
-Config load_config(const char* config_path) {
-    Config config = {
-        .width = 0,
-        .height = 0,
-        .wallpaper_path = NULL
-    };
+Config load_config() {
+    Config config = {0, 0, NULL};
 
-    FILE* file = fopen(config_path, "r");
+    FILE* file = fopen(CONFIG_PATH, "r");
     if (!file) return config;
 
     char line[256];
