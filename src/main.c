@@ -70,8 +70,8 @@ void event_loop() {
     }
 }
 
-int main(int argc, char** argv) {
-    app_config = load_config("/etc/tuskwm.conf");
+int main() {
+    app_config = load_config();
     imlib_set_cache_size(1024 * 1024);
     imlib_set_color_usage(256);
     
