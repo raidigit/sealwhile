@@ -2,10 +2,10 @@
 
 <div align="center">
   <picture>
-    <img src="https://github.com/raidigit/tuskwm/raw/main/res/icon.png" width="25%">
+    <img src="https://github.com/raidigit/sealwhile/raw/main/res/icon.png" width="25%">
   </picture>
   
   ❄ | [Docs]("docs/config.md") | [Installation]("docs/install.md") | ❄
-  <h2>TuskWM</h2>
+  <h2>sealwhile</h2>
 
 modern wayland tiling window manager
