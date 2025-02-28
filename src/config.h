@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define CONFIG_PATH "/etc/tuskwm.conf"
+#define CONFIG_PATH "/etc/sealwhile.conf"
 
 typedef struct {
     int width;
