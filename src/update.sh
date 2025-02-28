@@ -1,5 +1,5 @@
 #!/bin/bash
-# TuskWM Auto-Update Script
+# Sealwhile Auto-Update Script
 # GitHub: https://github.com/raidigit/tuskwm
 
 log() {
@@ -21,12 +21,12 @@ select_version() {
         case $type in
             "User (stable)") 
                 RELEASE_TYPE="stable"
-                API_ENDPOINT="https://api.github.com/repos/raidigit/tuskwm/releases/latest"
+                API_ENDPOINT="https://api.github.com/repos/raidigit/sealwhile/releases/latest"
                 break
                 ;;
             "Dev (pre-release)")
                 RELEASE_TYPE="pre"
-                API_ENDPOINT="https://api.github.com/repos/raidigit/tuskwm/releases"
+                API_ENDPOINT="https://api.github.com/repos/raidigit/sealwhile/releases"
                 break
                 ;;
             *) echo "Invalid option";;
@@ -43,7 +43,7 @@ get_latest_tag() {
 }
 
 main() {
-    log "=== Starting TuskWM Update ==="
+    log "=== Starting sealwhile Update ==="
     
     # 1. Version selection
     select_version
@@ -74,7 +74,7 @@ main() {
     fi
 
     # 6. Download package
-    DOWNLOAD_URL="https://github.com/raidigit/tuskwm/archive/refs/tags/$LATEST_VER.tar.gz"
+    DOWNLOAD_URL="https://github.com/raidigit/sealwhile/archive/refs/tags/$LATEST_VER.tar.gz"
     log "Downloading $DOWNLOAD_URL"
     curl -L -o update_temp.tar.gz "$DOWNLOAD_URL" || {
         log "ERROR: Download failed"
@@ -94,7 +94,7 @@ main() {
 
     # 9. Compile and install
     log "Building project..."
-    cd "tuskwm-${LATEST_VER#v}" || {
+    cd "sealwhile-${LATEST_VER#v}" || {
         log "ERROR: Source directory missing"
         exit 5
     }
@@ -117,7 +117,7 @@ main() {
     # 11. Cleanup
     log "Cleaning temporary files..."
     cd ..
-    rm -rf "tuskwm-${LATEST_VER#v}" update_temp.tar.gz
+    rm -rf "sealwhile-${LATEST_VER#v}" update_temp.tar.gz
 
     log "=== Successfully updated to $LATEST_VER ==="
 }
